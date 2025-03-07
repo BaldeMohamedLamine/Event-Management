@@ -1,0 +1,77 @@
+{% extends 'events/base.html' %}
+
+{% block title %}Événements à venir{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center my-4">🎉 Événements à venir</h2>
+
+    <div class="row justify-content-end mb-4">
+        <div class="col-auto">
+            <form method="get" class="d-flex gap-2 align-items-center shadow-sm p-3 bg-light rounded">
+                <div class="form-outline">
+                    {{ filter_form.date }}
+                    <label class="form-label"></label>
+                </div>
+                <div class="form-outline">
+                    {{ filter_form.category }}
+                    <label class="form-label"></label>
+                </div>
+                <div class="form-outline">
+                    {{ filter_form.location }}
+                    <label class="form-label">📍 Lieu</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-filter"></i> Filtrer</button>
+            </form>
+        </div>
+    </div>
+
+    <p class="text-muted">Nombre d'événements trouvés : <strong>{{ events|length }}</strong></p>
+
+    <div class="row">
+        {% for event in events %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card shadow-sm" style="height: 400px;"> 
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <p class="card-text flex-grow-1">{{ event.description|truncatewords:20 }}</p>
+                        <p class="text-muted"><i class="far fa-calendar-alt"></i> {{ event.start_date|date:"l d F Y à H:i" }}</p>
+                        <a href="{% url 'events:detail' event.uid %}" class="btn btn-outline-primary btn-sm mt-auto">Détails <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center">
+                <p class="alert alert-warning">😞 Aucun événement trouvé.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+        <nav aria-label="Pagination">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Précédent">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+                <li class="page-item disabled">
+                    <span class="page-link">Page {{ page_obj.number }} sur {{ paginator.num_pages }}</span>
+                </li>
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Suivant">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+{% endblock %}

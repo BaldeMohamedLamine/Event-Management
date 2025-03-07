@@ -1,0 +1,36 @@
+{% extends 'events/base.html' %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow-lg">
+        {% if event.image %}
+            <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}" style="height: 350px; object-fit: cover;">
+        {% endif %}
+        <div class="card-body">
+            <h2 class="card-title">{{ event.title }}</h2>
+            <p class="card-text">{{ event.description }}</p>
+            <p><strong>Lieu :</strong> {{ event.location }}</p>
+            <p><strong>Début :</strong> {{ event.start_date|date:"l d F Y à H:i" }}</p>
+            <p><strong>Fin :</strong> {{ event.end_date|date:"l d F Y à H:i" }}</p>
+            <p><strong>Places :</strong> {{ event.capacity }} ({{ event.tickets.count }} inscrits)</p>
+            <p><strong>Prix :</strong> {{ event.price }} €</p>
+
+            <div class="d-flex gap-3">
+                {% if user.is_authenticated %}
+                    {% if user == event.organizer %}
+                        <a href="{% url 'events:edit' event.uid %}" class="btn btn-warning"><i class="fas fa-edit"></i> Modifier</a>
+                        <a href="{% url 'events:delete' event.uid %}" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Supprimer</a>
+                        <a href="{% url 'events:participants' event.uid %}" class="btn btn-info"><i class="fas fa-users"></i> Voir les participants</a>
+                    {% else %}
+                        <a href="{% url 'events:register_event' event.uid %}" class="btn btn-success"><i class="fas fa-check-circle"></i> S'inscrire</a>
+                    {% endif %}
+                {% else %}
+                    <p><a href="{% url 'users:login' %}" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Connectez-vous</a> pour vous inscrire</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

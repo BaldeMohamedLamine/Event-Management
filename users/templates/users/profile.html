@@ -1,0 +1,20 @@
+{% extends 'users/base_users.html' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block content %}
+    <div class="card mx-auto mt-5 p-4 shadow-lg" style="max-width: 600px;">
+        <div class="card-body text-center">
+            <h2 class="text-primary"><i class="fas fa-user"></i> Mon Profil</h2>
+            {% if user.profile_image %}
+                <img src="{{ user.profile_image.url }}" alt="Photo de profil" class="rounded-circle mb-3" width="150">
+            {% else %}
+                <img src="https://via.placeholder.com/150" alt="Photo de profil" class="rounded-circle mb-3">
+            {% endif %}
+            <p><strong>Nom :</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            <p><strong>Email :</strong> {{ user.email }}</p>
+            <p><strong>Informations complémentaires :</strong> {{ profile.additional_info }}</p>
+            <a href="{% url 'users:edit_profile' %}" class="btn btn-warning"><i class="fas fa-edit"></i> Modifier mon profil</a>
+        </div>
+    </div>
+{% endblock %}

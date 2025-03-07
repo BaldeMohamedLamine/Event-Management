@@ -1,0 +1,30 @@
+{% extends 'events/base.html' %}
+{% load static math_extras %}
+
+{% block title %}Inscription à {{ event.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">Inscription à l'événement : {{ event.title }}</h2>
+    
+    <div class="card p-4 shadow-sm">
+        <div class="card-body">
+            <p>Veuillez confirmer votre inscription à cet événement.</p>
+            
+            <form method="post" class="p-4 border rounded bg-white">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <h5>Résumé de l'événement</h5>
+                    <p><strong>Date de début :</strong> {{ event.start_date|date:"l d F Y à H:i" }}</p>
+                    <p><strong>Lieu :</strong> {{ event.location }}</p>
+                    <p><strong>Places restantes :</strong> {{ event.capacity|minus:event.tickets.count|default:0 }}</p>
+                    <p><strong>Prix :</strong> {{ event.price }} €</p>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block">Confirmer l'inscription</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends "events/base.html" %}
+
+{% block title %}Créer un événement{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">Créer un événement</h2>
+            <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form.description.label_tag }}
+                    {{ form.description }}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.image.label_tag }}
+                    {{ form.image }}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.location.label_tag }}
+                    {{ form.location }}
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form.start_date.label_tag }}
+                        {{ form.start_date }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form.end_date.label_tag }}
+                        {{ form.end_date }}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form.capacity.label_tag }}
+                        {{ form.capacity }}
+                    </div>
+                    <div class="col-md-6 mb-3" id="price-container">
+                        {{ form.price.label_tag }}
+                        {{ form.price }}
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.status.label_tag }}
+                    {{ form.status }}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form.category.label_tag }}
+                    {{ form.category }}
+                </div>
+                
+                <div class="form-check form-switch mb-3">
+                    {{ form.is_free }}
+                    <label class="form-check-label" for="{{ form.is_free.id_for_label }}">Événement gratuit</label>
+                </div>
+                
+                <div class="form-check form-switch mb-3">
+                    {{ form.is_private }}
+                    <label class="form-check-label" for="{{ form.is_private.id_for_label }}">Événement privé</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg w-100">Créer l'événement</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .form-check-label {
+        font-weight: 500;
+        margin-left: 5px;
+    }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+    var isFreeCheckbox = document.getElementById("id_is_free");
+    var priceContainer = document.getElementById("price-container");
+    
+    function togglePriceField() {
+        if(isFreeCheckbox.checked) {
+            priceContainer.style.display = "none";
+        } else {
+            priceContainer.style.display = "block";
+        }
+    }
+l
+    togglePriceField();
+
+    isFreeCheckbox.addEventListener("change", togglePriceField);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'users/base_users.html' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card shadow-lg p-5" style="max-width: 600px; width: 100%;">
+    <div class="card-body">
+      <h2 class="text-center text-primary mb-4">
+        <i class="fas fa-user-plus"></i> Créer un compte
+      </h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="form-outline">
+              {{ form.first_name }}
+              <label class="form-label" for="id_first_name">Nom</label>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="form-outline">
+              {{ form.last_name }}
+              <label class="form-label" for="id_last_name">Prénom</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-outline mb-3">
+          {{ form.username }}
+          <label class="form-label" for="id_username">Nom d'utilisateur</label>
+        </div>
+
+        <div class="form-outline mb-3">
+          {{ form.email }}
+          <label class="form-label" for="id_email">Adresse email</label>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="form-outline">
+              {{ form.password }}
+              <label class="form-label" for="id_password">Mot de passe</label>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="form-outline">
+              {{ form.confirm_password }}
+              <label class="form-label" for="id_confirm_password">Confirmation</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-outline mb-3">
+          {{ form.role }}
+          <label class="form-label" for="id_role">Rôle</label>
+        </div>
+        <div class="form-outline mb-3">
+            {{ form.profile_image }}
+            <label class="form-label" for="id_profile_image">Photo de profil</label>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-lg w-100">
+          S'inscrire
+        </button>
+      </form>
+      <p class="text-center mt-3">
+        Déjà un compte ? <a href="{% url 'users:login' %}" class="text-decoration-none">Se connecter</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "events/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title text-center">Inviter des participants</h2>
+            <p class="text-center">Envoie une invitation aux participants pour l'événement : <strong>{{ event.title }}</strong></p>
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="email" class="form-label">Adresse email du participant</label>
+                    <input type="email" name="email" id="email" class="form-control" required placeholder="exemple@email.com">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message personnalisé (optionnel)</label>
+                    <textarea name="message" id="message" class="form-control" rows="3" placeholder="Ajoutez un message pour votre invité"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Envoyer l'invitation</button>
+                <a href="{% url 'events:detail' event.uid %}" class="btn btn-secondary">Annuler</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

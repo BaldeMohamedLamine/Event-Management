@@ -1,0 +1,10 @@
+{% extends 'events/base.html' %}
+{% block content %}
+<h1>Modifier l'événement</h1>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-success" data-mdb-ripple-init>Enregistrer les modifications</button>
+  <a href="{% url 'events:detail' object.uid %}" class="btn btn-dark" data-mdb-ripple-init>Retour au détail de l'événement</a>
+</form>
+{% endblock %}

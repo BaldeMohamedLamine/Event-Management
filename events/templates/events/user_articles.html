@@ -1,0 +1,62 @@
+{% extends "events/base.html" %}
+{% load static %}
+{% load math_extras %}  
+{% block content %}
+<div class="table-responsive">
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Nom</th>
+                <th>Date</th>
+                <th>Inscrits</th>
+                <th>Taux de remplissage</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in articles %}
+            <tr>
+                <td>{{ event.title }}</td>
+                <td>{{ event.start_date|date:"d/m/Y H:i" }}</td>
+                <td>{{ event.tickets.count }} / {{ event.capacity }}</td> 
+                
+                {% if event.capacity > 0 %}
+                    {% with event.tickets.count|div:event.capacity|multiply:100 as percentage %}
+                    <td>
+                        <div class="progress" style="height: 20px;">
+                            <div class="progress-bar 
+                                {% if percentage >= 75 %} bg-danger 
+                                {% elif percentage >= 50 %} bg-warning 
+                                {% else %} bg-success {% endif %}" 
+                                role="progressbar" 
+                                style="width: {{ percentage }}%;" 
+                                aria-valuenow="{{ percentage }}" 
+                                aria-valuemin="0" 
+                                aria-valuemax="100">
+                                {{ percentage|floatformat:1 }}%
+                            </div>
+                        </div>
+                    </td>
+                    {% endwith %}
+                {% else %}
+                    <td><span class="badge bg-secondary">Capacité non définie</span></td>
+                {% endif %}
+
+                <td>
+                    <a href="{% url 'events:edit' event.uid %}" class="btn btn-sm btn-warning">Modifier</a>
+                    <a href="{% url 'events:delete' event.uid %}" class="btn btn-sm btn-danger">Supprimer</a>
+                    <a href="{% url 'events:detail' event.uid %}" class="btn btn-sm btn-info">Détails</a>
+                    {% if event.is_private %}
+                        <a href="{% url 'events:send_invitation' event.uid %}" class="btn btn-sm btn-secondary">Inviter</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center text-muted">Aucun événement trouvé.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

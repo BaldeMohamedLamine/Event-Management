@@ -1,0 +1,18 @@
+{% extends 'users/base_users.html' %}
+
+{% block title %}Modifier mon Profil{% endblock %}
+
+{% block content %}
+    <div class="card mx-auto mt-5 p-4 shadow-lg" style="max-width: 500px;">
+        <div class="card-body">
+            <h2 class="text-center text-primary"><i class="fas fa-user-edit"></i> Modifier mon profil</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Sauvegarder</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

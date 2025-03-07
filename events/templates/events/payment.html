@@ -1,0 +1,40 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Paiement pour {{ event.title }}</h1>
+    
+    <div class="card p-4 shadow-sm">
+        <div class="card-body">
+            <h4>Prix : {{ event.price }} €</h4>
+            <p class="text-muted">Veuillez procéder au paiement pour réserver votre place à cet événement.</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.payment_method.id_for_label }}">Méthode de paiement</label>
+                    {{ form.payment_method }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.card_number.id_for_label }}">Numéro de carte</label>
+                    {{ form.card_number }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.expiration_date.id_for_label }}">Date d'expiration</label>
+                    {{ form.expiration_date }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.cvc.id_for_label }}">CVC</label>
+                    {{ form.cvc }}
+                </div>
+                
+                <button type="submit" class="btn btn-success btn-block">Payer {{ event.price }} €</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
